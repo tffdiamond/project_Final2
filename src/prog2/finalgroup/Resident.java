@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class MaleCitizen extends JPanel {
+public class Resident extends JPanel {
 
     private final String[] columnHeader = {"Full Name", "Email", "Address", "Age", "Resident", "District", "Gender"};
 
@@ -15,12 +15,19 @@ public class MaleCitizen extends JPanel {
 
     private DefaultTableModel tableModel;
     private JTable table;
-    private List<Citizen> males;
+    private List<Citizen> resident;
     private JButton back;
+    private JPanel topPanel;
+    private JPanel mainPanel;
+    private JLabel label;
+    private JScrollPane pane;
 
-    public MaleCitizen(){
+    public Resident(){
+        GridBagConstraints constraints = new GridBagConstraints();
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 300));
+
+        programUtility = new MyProgramUtility();
 
         back = new JButton("Back");
         back.addMouseListener(new MouseAdapter() {
@@ -33,27 +40,25 @@ public class MaleCitizen extends JPanel {
             }
         });
 
-        programUtility = new MyProgramUtility();
-
         try {
-            males = programUtility.malePopulation();
-        } catch (Exception e)
+            resident = programUtility.numberOfResidents();
+        } catch (Exception exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
 
-        int row = programUtility.listCounter(males);
+        int row = programUtility.listCounter(resident);
         int col = columnHeader.length;
 
         setUpTable(row, col);
 
-        JScrollPane pane = new JScrollPane(table);
+        pane = new JScrollPane(table);
         pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JPanel topPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        JLabel label = new JLabel();
-        label.setText("Male Citizen Population: " + row);
+        topPanel = new JPanel(new GridBagLayout());
+
+        label = new JLabel();
+        label.setText("Number of Residents: " + row);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -64,7 +69,11 @@ public class MaleCitizen extends JPanel {
         topPanel.add(label, constraints);
 
         add(topPanel, BorderLayout.NORTH);
-        add(pane, BorderLayout.CENTER);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(pane);
+        add(mainPanel, BorderLayout.CENTER);
+
 
     }
 
@@ -75,7 +84,8 @@ public class MaleCitizen extends JPanel {
         int i = 0;
         while (i < rows.length)
         {
-            for (Citizen c : males) {
+            for (Citizen c : resident)
+            {
                 arr[0] = c.getFullName();
                 arr[1] = c.getEmail();
                 arr[2] = c.getAddress();
@@ -90,12 +100,12 @@ public class MaleCitizen extends JPanel {
                 i++;
 
             }
+
         }
 
         tableModel = new DefaultTableModel(rows, columnHeader);
         table = new JTable(tableModel);
         table.setEnabled(false);
-
     }
 
     public JButton getBack() {
@@ -105,4 +115,5 @@ public class MaleCitizen extends JPanel {
     public void setBack(JButton back) {
         this.back = back;
     }
+
 }

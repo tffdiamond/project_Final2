@@ -113,7 +113,7 @@ public class CitizenSearch extends JPanel {
         try (BufferedReader reader = new BufferedReader(new FileReader("res/data.csv"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] rowData = line.split(",");
+                String[] rowData = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 Vector<String> row = new Vector<>(Arrays.asList(rowData));
                 data.add(row);
             }
@@ -131,8 +131,13 @@ public class CitizenSearch extends JPanel {
 
         List<RowFilter<Object, Object>> filters = new ArrayList<>();
 
+        /*
+            TO DO:
+                - implement a regex to handle a string that contains double quote with comma inside -> split them in
+                only one group
+         */
         for (int i = 0; i < columnNames.size(); i++) {
-            filters.add(RowFilter.regexFilter("(?i)" + searchTerm, i));
+            filters.add(RowFilter.regexFilter("(?i)" + searchTerm));
         }
 
         sorter.setRowFilter(RowFilter.orFilter(filters));

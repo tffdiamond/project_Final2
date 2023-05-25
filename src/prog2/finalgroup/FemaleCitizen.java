@@ -94,6 +94,8 @@ public class FemaleCitizen extends JPanel {
 
         tableModel = new DefaultTableModel(rows, columnHeader);
         table = new JTable(tableModel);
+        table.setEnabled(false);
+
     }
 
     public JButton getBack() {

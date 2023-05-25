@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class Residency extends JPanel {
+public class NonResident extends JPanel {
 
     private final String[] columnHeader = {"Full Name", "Email", "Address", "Age", "Resident", "District", "Gender"};
 
@@ -15,7 +15,6 @@ public class Residency extends JPanel {
 
     private DefaultTableModel tableModel;
     private JTable table;
-    private List<Citizen> resident;
     private List<Citizen> nonResident;
     private JButton back;
     private JPanel topPanel;
@@ -23,7 +22,7 @@ public class Residency extends JPanel {
     private JLabel label;
     private JScrollPane pane;
 
-    public Residency(){
+    public NonResident(){
         GridBagConstraints constraints = new GridBagConstraints();
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 300));
@@ -42,14 +41,13 @@ public class Residency extends JPanel {
         });
 
         try {
-            resident = programUtility.numberOfResidents();
             nonResident = programUtility.numberOfNonResidents();
         } catch (Exception exception)
         {
             exception.printStackTrace();
         }
 
-        int row = programUtility.listCounter(resident) + programUtility.listCounter(nonResident);
+        int row = programUtility.listCounter(nonResident);
         int col = columnHeader.length;
 
         setUpTable(row, col);
@@ -60,7 +58,7 @@ public class Residency extends JPanel {
         topPanel = new JPanel(new GridBagLayout());
 
         label = new JLabel();
-        label.setText("Total number of residence and non-residence: " + row);
+        label.setText("Number of Non-Residents: " + row);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -86,22 +84,6 @@ public class Residency extends JPanel {
         int i = 0;
         while (i < rows.length)
         {
-            for (Citizen c : resident)
-            {
-                arr[0] = c.getFullName();
-                arr[1] = c.getEmail();
-                arr[2] = c.getAddress();
-                arr[3] = String.valueOf(c.getAge());
-                arr[4] = String.valueOf(c.isResident());
-                arr[5] = String.valueOf(c.getDistrict());
-                arr[6] = String.valueOf(c.getGender());
-
-                for (int j = 0; j < rows[i].length; j++) {
-                    rows[i][j] = arr[j];
-                }
-                i++;
-
-            }
 
             for (Citizen c : nonResident)
             {
@@ -124,6 +106,8 @@ public class Residency extends JPanel {
 
         tableModel = new DefaultTableModel(rows, columnHeader);
         table = new JTable(tableModel);
+        table.setEnabled(false);
+
     }
 
     public JButton getBack() {
@@ -133,5 +117,4 @@ public class Residency extends JPanel {
     public void setBack(JButton back) {
         this.back = back;
     }
-
 }

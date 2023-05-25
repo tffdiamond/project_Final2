@@ -80,7 +80,7 @@ public class MaleCitizen extends JPanel {
                 arr[1] = c.getEmail();
                 arr[2] = c.getAddress();
                 arr[3] = String.valueOf(c.getAge());
-                arr[4] = String.valueOf(c.isResident());
+                arr[4] = String.valueOf(c.isResident()?"Resident" : "Non-Resident");
                 arr[5] = String.valueOf(c.getDistrict());
                 arr[6] = String.valueOf(c.getGender());
 

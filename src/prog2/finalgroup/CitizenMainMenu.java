@@ -11,13 +11,15 @@ public class CitizenMainMenu extends JFrame {
     private final String mainPanelID = "id_main";
     private final String citizenSearchID = "id_citizenSearch";
     private final String seniorCitizenID = "id_seniorCitizen";
-    private final String residencyID = "id_residence";
+    private final String residentID = "id_resident";
+    private final String nonResidentID = "id_nonResident";
 
     private final String maleCitizenID = "id_maleCitizen";
     private final String femaleCitizenID = "id_femaleCitizen";
     private CitizenSearch citizenSearchPanel;
     private SeniorCitizen seniorCitizenPanel;
-    private Residency residencyPanel;
+    private Resident residentPanel;
+    private NonResident nonResidentPanel;
     private MaleCitizen maleCitizenPanel;
     private FemaleCitizen femaleCitizenPanel;
     private JPanel cardPanel;
@@ -40,9 +42,10 @@ public class CitizenMainMenu extends JFrame {
 
         JButton button1 = createButton("Citizen Search");
         JButton button2 = createButton("Senior Citizens");
-        JButton button3 = createButton("Residents/Non Residents");
-        JButton button4 = createButton("Male Citizens");
-        JButton button5 = createButton("Female Citizens");
+        JButton button3 = createButton("Residents");
+        JButton button4 = createButton("Non-Residents");
+        JButton button5 = createButton("Male Citizens");
+        JButton button6 = createButton("Female Citizens");
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -66,7 +69,7 @@ public class CitizenMainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                changeScreen(residencyID);
+                changeScreen(residentID);
 
             }
         });
@@ -75,12 +78,21 @@ public class CitizenMainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                changeScreen(maleCitizenID);
+                changeScreen(nonResidentID);
 
             }
         });
 
         button5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                changeScreen(maleCitizenID);
+
+            }
+        });
+
+        button6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -100,6 +112,7 @@ public class CitizenMainMenu extends JFrame {
         mainMenu.add(button3);
         mainMenu.add(button4);
         mainMenu.add(button5);
+        mainMenu.add(button6);
 
         setUpFrame();
 
@@ -131,8 +144,19 @@ public class CitizenMainMenu extends JFrame {
             }
         });
 
-        residencyPanel = new Residency();
-        residencyPanel.getBack().addMouseListener(new MouseAdapter() {
+        residentPanel = new Resident();
+        residentPanel.getBack().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                changeScreen(mainPanelID);
+
+            }
+        });
+
+        nonResidentPanel = new NonResident();
+        nonResidentPanel.getBack().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -174,7 +198,8 @@ public class CitizenMainMenu extends JFrame {
         cardPanel.add(mainPanelID, mainMenu);
         cardPanel.add(citizenSearchID, citizenSearchPanel);
         cardPanel.add(seniorCitizenID, seniorCitizenPanel);
-        cardPanel.add(residencyID, residencyPanel);
+        cardPanel.add(residentID, residentPanel);
+        cardPanel.add(nonResidentID, nonResidentPanel);
         cardPanel.add(maleCitizenID, maleCitizenPanel);
         cardPanel.add(femaleCitizenID, femaleCitizenPanel);
     }
